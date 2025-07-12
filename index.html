@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fixerr | We Pick It Up. We Fix It. It’s Back.</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>We pick it up, fix it, and it’s back to you.</h1>
+    <button onclick="scrollToForm()">Book a Repair</button>
+  </header>
+
+  <section class="services">
+    <h2>What We Fix</h2>
+    <ul>
+      <li>📱 Cellphones</li>
+      <li>💻 Laptops</li>
+      <li>🔌 Small Appliances</li>
+    </ul>
+  </section>
+
+  <section class="zones">
+    <h2>Service Areas</h2>
+    <p>CBD, Woodstock, Observatory, Mowbray, Claremont, Rosebank, Rondebosch</p>
+  </section>
+
+  <section class="trust">
+    <h2>Fixerr Promise</h2>
+    <p>Every pickup comes with a small thank-you gift. We mean it.</p>
+  </section>
+
+  <section id="form-section">
+    <h2>Book a Repair</h2>
+    <form>
+      <input type="text" placeholder="Your Name" required />
+      <input type="tel" placeholder="Phone Number" required />
+      <input type="text" placeholder="Pickup Address" required />
+      <select required>
+        <option value="">Select Item Type</option>
+        <option value="laptop">Laptop</option>
+        <option value="phone">Phone</option>
+        <option value="appliance">Appliance</option>
+      </select>
+      <input type="file" accept="image/*" />
+      <button type="submit">Submit</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>© 2025 Fixerr, built by MSTK.</p>
+    <p><a href="#">Terms</a> | <a href="#">Privacy</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
