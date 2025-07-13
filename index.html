@@ -1,62 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Fixerr Booking</title>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fixerr – Book a Repair</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 450px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 15px;
+      outline: none;
+    }
+
+    button {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #155cc4;
+    }
+
+    #confirmation {
+      background-color: #e0f7e9;
+      color: #20734a;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <h2>Book a Repair</h2>
-  <form id="bookingForm">
-    <input type="text" id="name" placeholder="Your Name" required><br><br>
-    <input type="text" id="item" placeholder="Item (e.g., Laptop, Kettle)" required><br><br>
-    <input type="file" id="photo" accept="image/*" required><br><br>
-    <button type="submit">Submit Booking</button>
-  </form>
+  <div class="container">
+    <h1>📦 Book a Repair</h1>
 
-  <p id="status"></p>
+    <form id="booking-form">
+      <input type="text" id="name" placeholder="Your Name" required />
+      <input type="email" id="email" placeholder="Your Email" required />
+      <input type="text" id="item" placeholder="Item (e.g., Laptop, Kettle)" required />
 
-  <script>
-    // Your Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyCh1RX8BSAtgGULDXEU-7RlFYPLru4THEI",
-      authDomain: "fixerrappsa.firebaseapp.com",
-      projectId: "fixerrappsa",
-      storageBucket: "fixerrappsa.firebasestorage.app",
-      messagingSenderId: "397397274379",
-      appId: "1:397397274379:web:17abd46ef77c70114f7c0e",
-      measurementId: "G-FQTG8V7LB2"
-    };
+      <select id="location" required>
+        <option value="">Choose a Location</option>
+        <option value="Cape Town">Cape Town</option>
+        <option value="Woodstock">Woodstock</option>
+        <option value="Observatory">Observatory</option>
+        <option value="Mowbray">Mowbray</option>
+        <option value="Claremont">Claremont</option>
+        <option value="Rosebank">Rosebank</option>
+        <option value="Rondebosch">Rondebosch</option>
+      </select>
 
-    // Init Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const storage = firebase.storage();
+      <input type="file" id="file" />
+      <button type="submit">🚀 Submit Booking</button>
+    </form>
 
-    // Form logic
-    document.getElementById('bookingForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const item = document.getElementById('item').value;
-      const file = document.getElementById('photo').files[0];
+    <div id="confirmation">✅ Booking submitted successfully!</div>
+  </div>
 
-      if (!file) return alert("Please upload a photo.");
-
-      const fileRef = storage.ref('uploads/' + file.name);
-      await fileRef.put(file);
-      const fileURL = await fileRef.getDownloadURL();
-
-      await db.collection('bookings').add({
-        name,
-        item,
-        photoURL: fileURL,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      });
-
-      document.getElementById('status').innerText = "✅ Booking submitted!";
-      document.getElementById('bookingForm').reset();
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

@@ -1,3 +1,7 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-storage.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
 // Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCh1RX8BSAtgGULDXEU-7RlFYPLru4THEI",
@@ -9,33 +13,39 @@ const firebaseConfig = {
   measurementId: "G-FQTG8V7LB2"
 };
 
-firebase.initializeApp(firebaseConfig);
-const storage = firebase.storage();
-const db = firebase.firestore();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
 
-// Form logic
-document.getElementById("bookingForm").addEventListener("submit", async (e) => {
+// Form handling
+document.getElementById("booking-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const name = document.getElementById("name").value;
-  const item = document.getElementById("item").value;
-  const file = document.getElementById("photo").files[0];
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const item = document.getElementById("item").value.trim();
+  const location = document.getElementById("location").value;
+  const file = document.getElementById("file").files[0];
 
   try {
-    const storageRef = storage.ref('uploads/' + file.name);
-    await storageRef.put(file);
-    const photoURL = await storageRef.getDownloadURL();
-
-    await db.collection("bookings").add({
+    const bookingRef = await addDoc(collection(db, "bookings"), {
       name,
+      email,
       item,
-      photoURL,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      location,
+      timestamp: new Date()
     });
 
-    document.getElementById("status").innerText = "✅ Booking submitted!";
-    document.getElementById("bookingForm").reset();
+    if (file) {
+      const fileRef = ref(storage, `uploads/${bookingRef.id}/${file.name}`);
+      await uploadBytes(fileRef, file);
+    }
+
+    document.getElementById("booking-form").reset();
+    document.getElementById("confirmation").style.display = "block";
   } catch (error) {
-    console.error("❌ Booking failed:", error);
-    document.getElementById("status").innerText = "❌ Error submitting booking.";
+    console.error("Error submitting booking:", error);
+    alert("Something went wrong. Please try again.");
   }
 });
