@@ -1,9 +1,7 @@
-// Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-storage.js";
 
-// Firebase project config
 const firebaseConfig = {
   apiKey: "AIzaSyCh1RX8BSAtgGULDXEU-7RlFYPLru4THEI",
   authDomain: "fixerrappsa.firebaseapp.com",
@@ -14,13 +12,12 @@ const firebaseConfig = {
   measurementId: "G-FQTG8V7LB2"
 };
 
-// Init Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// Form logic
 const form = document.getElementById("bookingForm");
+const confirmation = document.getElementById("confirmation");
 
 if (form) {
   form.addEventListener("submit", async (e) => {
@@ -28,30 +25,36 @@ if (form) {
 
     const name = form.name.value.trim();
     const email = form.email.value.trim();
-    const location = form.location.value.trim();
+    const location = form.location.value;
     const device = form.device.value;
     const file = form.file.files[0];
 
     try {
-      const filePath = `uploads/${Date.now()}_${file.name}`;
-      const storageRef = ref(storage, filePath);
-      await uploadBytes(storageRef, file);
+      let filePath = "";
+      let fileName = "";
+
+      if (file) {
+        filePath = `uploads/${Date.now()}_${file.name}`;
+        const storageRef = ref(storage, filePath);
+        await uploadBytes(storageRef, file);
+        fileName = file.name;
+      }
 
       await addDoc(collection(db, "bookings"), {
         name,
         email,
         location,
         device,
-        fileName: file.name,
+        fileName,
         filePath,
         submittedAt: new Date().toISOString()
       });
 
-      alert("✅ Booking submitted successfully!");
       form.reset();
+      confirmation.style.display = "block";
     } catch (error) {
       console.error("❌ Submission error:", error);
-      alert("Something went wrong. Please try again later.");
+      alert("Something went wrong. Please try again.");
     }
   });
 }

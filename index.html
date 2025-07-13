@@ -56,7 +56,16 @@
       <input type="email" name="email" required /><br/><br/>
 
       <label>Location:</label>
-      <input type="text" name="location" placeholder="e.g. Rondebosch, Cape Town" required /><br/><br/>
+      <select name="location" required>
+        <option value="">Select your area</option>
+        <option value="Claremont">Claremont</option>
+        <option value="Rondebosch">Rondebosch</option>
+        <option value="Observatory">Observatory</option>
+        <option value="Woodstock">Woodstock</option>
+        <option value="Cape Town CBD">Cape Town CBD</option>
+        <option value="Mowbray">Mowbray</option>
+        <option value="Rosebank">Rosebank</option>
+      </select><br/><br/>
 
       <label>Device Type:</label>
       <select name="device" required>
@@ -70,10 +79,15 @@
       </select><br/><br/>
 
       <label>Upload a picture (optional):</label>
-      <input type="file" name="file" required /><br/><br/>
+      <input type="file" name="file" /><br/><br/>
 
       <button type="submit" class="btn-primary">Submit Booking</button>
     </form>
+
+    <div id="confirmation" style="display:none; padding-top:2rem;">
+      <h3>✅ Booking Confirmed</h3>
+      <p>Thank you for trusting Fixerr. We’ll contact you soon.</p>
+    </div>
   </section>
 
   <footer>
