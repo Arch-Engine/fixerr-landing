@@ -1,62 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fixerr | We Pick It Up. We Fix It. It’s Back.</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Fixerr Booking</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <h2>Book a Repair</h2>
+  <form id="bookingForm">
+    <input type="text" id="name" placeholder="Your Name" required><br><br>
+    <input type="text" id="item" placeholder="Item (e.g., Laptop, Kettle)" required><br><br>
+    <input type="file" id="photo" accept="image/*" required><br><br>
+    <button type="submit">Submit Booking</button>
+  </form>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <p id="status"></p>
 
-  <!-- Firebase Config -->
   <script>
+    // Your Firebase config
     const firebaseConfig = {
-  apiKey: "AIzaSyCh1RX8BSAtgGULDXEU-7RlFYPLru4THEI",
-  authDomain: "fixerrappsa.firebaseapp.com",
-  projectId: "fixerrappsa",
-  storageBucket: "fixerrappsa.firebasestorage.app",
-  messagingSenderId: "397397274379",
-  appId: "1:397397274379:web:17abd46ef77c70114f7c0e",
-  measurementId: "G-FQTG8V7LB2"
-};
+      apiKey: "AIzaSyCh1RX8BSAtgGULDXEU-7RlFYPLru4THEI",
+      authDomain: "fixerrappsa.firebaseapp.com",
+      projectId: "fixerrappsa",
+      storageBucket: "fixerrappsa.firebasestorage.app",
+      messagingSenderId: "397397274379",
+      appId: "1:397397274379:web:17abd46ef77c70114f7c0e",
+      measurementId: "G-FQTG8V7LB2"
+    };
 
-
+    // Init Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const storage = firebase.storage();
+
+    // Form logic
+    document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const item = document.getElementById('item').value;
+      const file = document.getElementById('photo').files[0];
+
+      if (!file) return alert("Please upload a photo.");
+
+      const fileRef = storage.ref('uploads/' + file.name);
+      await fileRef.put(file);
+      const fileURL = await fileRef.getDownloadURL();
+
+      await db.collection('bookings').add({
+        name,
+        item,
+        photoURL: fileURL,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      document.getElementById('status').innerText = "✅ Booking submitted!";
+      document.getElementById('bookingForm').reset();
+    });
   </script>
-</head>
-
-<body>
-  <header>
-    <h1>We pick it up, fix it, and it’s back to you.</h1>
-  </header>
-
-  <section id="form-section">
-    <h2>Book a Repair</h2>
-    <form id="fixerrForm">
-      <input type="text" id="name" placeholder="Your Name" required />
-      <input type="tel" id="phone" placeholder="Phone Number" required />
-      <input type="text" id="address" placeholder="Pickup Address" required />
-      <select id="itemType" required>
-        <option value="">Select Item Type</option>
-        <option value="laptop">Laptop</option>
-        <option value="phone">Phone</option>
-        <option value="appliance">Appliance</option>
-      </select>
-      <input type="file" id="photo" accept="image/*" required />
-      <button type="submit">Submit</button>
-    </form>
-  </section>
-
-  <footer>
-    <p>© 2025 Fixerr, built by MSTK.</p>
-    <p><a href="#">Terms</a> | <a href="#">Privacy</a></p>
-  </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>
