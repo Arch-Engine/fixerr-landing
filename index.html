@@ -2,96 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fixerr – Book a Repair</title>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f9f9f9;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .container {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 450px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 30px;
-    }
-
-    input, select, button {
-      width: 100%;
-      padding: 12px 14px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      font-size: 15px;
-      outline: none;
-    }
-
-    button {
-      background-color: #1a73e8;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #155cc4;
-    }
-
-    #confirmation {
-      background-color: #e0f7e9;
-      color: #20734a;
-      padding: 10px;
-      border-radius: 10px;
-      text-align: center;
-      font-size: 14px;
-      display: none;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fixerr | We Pick It Up. We Fix It. We Bring It Back.</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div class="container">
-    <h1>📦 Book a Repair</h1>
+  <header class="navbar">
+    <div class="logo">Fixerr<span class="mstk"> by MSTK</span></div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#book">Book</a>
+      <a href="#track">Track</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-    <form id="booking-form">
-      <input type="text" id="name" placeholder="Your Name" required />
-      <input type="email" id="email" placeholder="Your Email" required />
-      <input type="text" id="item" placeholder="Item (e.g., Laptop, Kettle)" required />
+  <section class="hero" id="home">
+    <h1>We Pick It Up.<br>We Fix It.<br>We Bring It Back.</h1>
+    <p>Fixerr is your trusted pickup-and-repair service for electronics and appliances in Cape Town.</p>
+    <a href="#book" class="btn-primary">Book a Repair</a>
+  </section>
 
-      <select id="location" required>
-        <option value="">Choose a Location</option>
-        <option value="Cape Town">Cape Town</option>
-        <option value="Woodstock">Woodstock</option>
-        <option value="Observatory">Observatory</option>
-        <option value="Mowbray">Mowbray</option>
-        <option value="Claremont">Claremont</option>
-        <option value="Rosebank">Rosebank</option>
-        <option value="Rondebosch">Rondebosch</option>
-      </select>
+  <section class="how-it-works">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <h3>1. You Book</h3>
+        <p>Tell us what needs fixing.</p>
+      </div>
+      <div class="step">
+        <h3>2. We Pick It Up</h3>
+        <p>We collect from your location.</p>
+      </div>
+      <div class="step">
+        <h3>3. We Fix It</h3>
+        <p>Skilled technicians restore your device.</p>
+      </div>
+      <div class="step">
+        <h3>4. We Return It</h3>
+        <p>Back in your hands. Good as new.</p>
+      </div>
+    </div>
+  </section>
 
-      <input type="file" id="file" />
-      <button type="submit">🚀 Submit Booking</button>
-    </form>
-
-    <div id="confirmation">✅ Booking submitted successfully!</div>
-  </div>
-
-  <script src="script.js"></script>
+  <footer>
+    <p>&copy; 2025 Fixerr (Pty) Ltd. All rights reserved.</p>
+    <p>Built and owned by <strong>MSTK</strong> &mdash; A Division of Ashley Solomon Ramushwana</p>
+    <p><a href="#">Terms & Conditions</a> | <a href="#">Privacy Policy</a> | <a href="#">Support</a></p>
+  </footer>
 </body>
 </html>
