@@ -28,7 +28,8 @@ if (form) {
 
     const name = form.name.value.trim();
     const email = form.email.value.trim();
-    const device = form.device.value.trim();
+    const location = form.location.value.trim();
+    const device = form.device.value;
     const file = form.file.files[0];
 
     try {
@@ -41,3 +42,18 @@ if (form) {
       await addDoc(collection(db, "bookings"), {
         name,
         email,
+        location,
+        device,
+        fileName: file.name,
+        filePath,
+        submittedAt: new Date().toISOString()
+      });
+
+      alert("✅ Booking submitted successfully!");
+      form.reset();
+    } catch (error) {
+      console.error("❌ Submission error:", error);
+      alert("Something went wrong. Please try again later.");
+    }
+  });
+}

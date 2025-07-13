@@ -56,8 +56,19 @@
       <label>Email:</label>
       <input type="email" name="email" required /><br/><br/>
 
-      <label>Device:</label>
-      <input type="text" name="device" required /><br/><br/>
+      <label>Location:</label>
+      <input type="text" name="location" placeholder="e.g. Rondebosch, Cape Town" required /><br/><br/>
+
+      <label>Device Type:</label>
+      <select name="device" required>
+        <option value="">Select device type</option>
+        <option value="Laptop">Laptop</option>
+        <option value="Smartphone">Smartphone</option>
+        <option value="Tablet">Tablet</option>
+        <option value="Appliance">Appliance</option>
+        <option value="Television">Television</option>
+        <option value="Other">Other</option>
+      </select><br/><br/>
 
       <label>Upload a picture (optional):</label>
       <input type="file" name="file" required /><br/><br/>
