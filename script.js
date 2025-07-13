@@ -1,6 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-storage.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCh1RX8BSAtgGULDXEU-7RlFYPLru4THEI",
@@ -16,45 +16,46 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-const form = document.getElementById("bookingForm");
-const confirmation = document.getElementById("confirmation");
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("bookingForm");
+  if (!form) return console.error("⛔ Form not found!");
 
-if (form) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    console.log("✅ Form submitted");
 
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
+    const name = form.name.value;
+    const email = form.email.value;
     const location = form.location.value;
     const device = form.device.value;
     const file = form.file.files[0];
 
-    try {
-      let filePath = "";
-      let fileName = "";
+    console.log({ name, email, location, device, file });
 
+    try {
+      let fileURL = "";
       if (file) {
-        filePath = `uploads/${Date.now()}_${file.name}`;
-        const storageRef = ref(storage, filePath);
-        await uploadBytes(storageRef, file);
-        fileName = file.name;
+        const storageRef = ref(storage, `uploads/${Date.now()}_${file.name}`);
+        const uploadResult = await uploadBytes(storageRef, file);
+        fileURL = await getDownloadURL(uploadResult.ref);
+        console.log("📁 File uploaded:", fileURL);
       }
 
-      await addDoc(collection(db, "bookings"), {
+      const docRef = await addDoc(collection(db, "bookings"), {
         name,
         email,
         location,
         device,
-        fileName,
-        filePath,
-        submittedAt: new Date().toISOString()
+        fileURL,
+        timestamp: new Date().toISOString()
       });
 
+      console.log("📦 Booking added to Firestore:", docRef.id);
+      alert("Booking successful!");
       form.reset();
-      confirmation.style.display = "block";
-    } catch (error) {
-      console.error("❌ Submission error:", error);
-      alert("Something went wrong. Please try again.");
+    } catch (err) {
+      console.error("❌ Firebase error:", err);
+      alert("Error submitting booking.");
     }
   });
-}
+});
