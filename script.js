@@ -19,7 +19,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// Get form
+// Form logic
 const form = document.getElementById("bookingForm");
 
 if (form) {
@@ -33,12 +33,10 @@ if (form) {
     const file = form.file.files[0];
 
     try {
-      // Upload file to Firebase Storage
       const filePath = `uploads/${Date.now()}_${file.name}`;
       const storageRef = ref(storage, filePath);
       await uploadBytes(storageRef, file);
 
-      // Save form data to Firestore
       await addDoc(collection(db, "bookings"), {
         name,
         email,
