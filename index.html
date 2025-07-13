@@ -46,10 +46,33 @@
     </div>
   </section>
 
+  <!-- ✅ Booking Form Section -->
+  <section id="book" style="text-align:center; padding:2rem;">
+    <h2>Book a Repair</h2>
+    <form id="bookingForm" style="max-width:400px;margin:auto;text-align:left;">
+      <label>Name:</label>
+      <input type="text" name="name" required /><br/><br/>
+
+      <label>Email:</label>
+      <input type="email" name="email" required /><br/><br/>
+
+      <label>Device:</label>
+      <input type="text" name="device" required /><br/><br/>
+
+      <label>Upload a picture (optional):</label>
+      <input type="file" name="file" required /><br/><br/>
+
+      <button type="submit" class="btn-primary">Submit Booking</button>
+    </form>
+  </section>
+
   <footer>
     <p>&copy; 2025 Fixerr (Pty) Ltd. All rights reserved.</p>
     <p>Built and owned by <strong>MSTK</strong> &mdash; A Division of Ashley Solomon Ramushwana</p>
     <p><a href="#">Terms & Conditions</a> | <a href="#">Privacy Policy</a> | <a href="#">Support</a></p>
   </footer>
+
+  <!-- ✅ Firebase Logic Script -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
